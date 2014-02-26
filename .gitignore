@@ -3,3 +3,5 @@ log/*.log
 pkg/
 .ruby-gemset
 .ruby-version
+spec/dummy/db/*.sqlite3
+spec/dummy/log
