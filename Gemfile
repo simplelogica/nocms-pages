@@ -12,3 +12,9 @@ gemspec
 
 # To use debugger
 # gem 'debugger'
+
+group :test do
+  gem 'rspec-rails', '~> 3.0.0.beta'
+  gem 'capybara'
+  gem 'database_cleaner'
+end
