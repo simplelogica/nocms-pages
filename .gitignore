@@ -3,4 +3,3 @@ log/*.log
 pkg/
 .ruby-gemset
 .ruby-version
-spec/internal
