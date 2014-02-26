@@ -1,5 +1,7 @@
 source "https://rubygems.org"
 
+gem 'globalize', "~> 4.0.0"
+
 # Declare your gem's dependencies in pages.gemspec.
 # Bundler will treat runtime dependencies like base dependencies, and
 # development dependencies will be added by default to the :development group.

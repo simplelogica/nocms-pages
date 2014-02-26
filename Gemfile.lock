@@ -2,6 +2,7 @@ PATH
   remote: .
   specs:
     nocms-pages (0.0.1)
+      globalize (~> 4.0.0)
       rails (~> 4.0.3)
 
 GEM
@@ -47,6 +48,9 @@ GEM
     database_cleaner (1.0.1)
     diff-lcs (1.2.5)
     erubis (2.7.0)
+    globalize (4.0.0)
+      activemodel (>= 4.0.0, < 5)
+      activerecord (>= 4.0.0, < 5)
     hike (1.2.3)
     i18n (0.6.9)
     mail (2.5.4)
@@ -124,6 +128,7 @@ DEPENDENCIES
   capybara
   combustion
   database_cleaner
+  globalize (~> 4.0.0)
   nocms-pages!
   rspec-rails (~> 3.0.0.beta)
   sqlite3
