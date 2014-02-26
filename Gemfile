@@ -17,6 +17,8 @@ gemspec
 
 group :test do
   gem 'rspec-rails', '~> 3.0.0.beta'
+  gem 'factory_girl'
+  gem 'faker'
   gem 'capybara'
   gem 'database_cleaner'
 end
