@@ -21,7 +21,7 @@ describe NoCMS::Pages::Block do
         end
       end
 
-      let(:block_with_layout) { build :nocms_block, layout: 'title-long_text', title: block_title }
+      let(:block_with_layout) { NoCMS::Pages::Block.create attributes_for(:nocms_block).merge(layout: 'title-long_text', title: block_title) }
       let(:block_title) { Faker::Lorem.sentence }
 
       subject { block_with_layout }
