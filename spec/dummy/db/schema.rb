@@ -11,16 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140226144223) do
+ActiveRecord::Schema.define(version: 20140226145439) do
 
-  create_table "no_cms_pages", force: true do |t|
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "no_cms_pages_translations", force: true do |t|
+  create_table "no_cms_pages_page_translations", force: true do |t|
     t.string "title"
     t.string "body"
+  end
+
+  create_table "no_cms_pages_pages", force: true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
 end

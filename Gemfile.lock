@@ -2,6 +2,7 @@ PATH
   remote: .
   specs:
     nocms-pages (0.0.1)
+      globalize (~> 4.0.0)
       rails (~> 4.0.3)
 
 GEM
@@ -126,6 +127,7 @@ PLATFORMS
 DEPENDENCIES
   capybara
   database_cleaner
+  globalize (~> 4.0.0)
   factory_girl
   faker
   nocms-pages!
