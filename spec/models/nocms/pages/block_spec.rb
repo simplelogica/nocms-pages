@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe NoCMS::Pages::Page do
+describe NoCMS::Pages::Block do
   it_behaves_like "model with required attributes", :nocms_block, [:layout, :page]
 
   context "when blocks have layouts" do
@@ -21,7 +21,8 @@ describe NoCMS::Pages::Page do
         end
       end
 
-      let(:block_with_layout) { build :nocms_block, layout: 'title-long_text' }
+      let(:block_with_layout) { build :nocms_block, layout: 'title-long_text', title: block_title }
+      let(:block_title) { Faker::Lorem.sentence }
 
       subject { block_with_layout }
 
@@ -33,6 +34,11 @@ describe NoCMS::Pages::Page do
       it("should not respond to fields from other layouts") do
         expect{subject.no_title}.to raise_error
       end
+
+      it("should save info in layout fields") do
+        expect(subject.title).to eq block_title
+      end
+
     end
   end
 end

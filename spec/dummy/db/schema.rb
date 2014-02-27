@@ -11,12 +11,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140227103351) do
+ActiveRecord::Schema.define(version: 20140227163905) do
 
   create_table "no_cms_pages_block_translations", force: true do |t|
     t.integer "no_cms_pages_block_id"
     t.string  "locale"
     t.string  "layout"
+    t.text    "fields_info",           default: "--- {}\n"
   end
 
   add_index "no_cms_pages_block_translations", ["no_cms_pages_block_id"], name: "index_no_cms_pages_block_translations_on_no_cms_pages_block_id"
