@@ -4,7 +4,7 @@ module NoCMS
 
     config_accessor :block_layouts
 
-    self.block_layouts = []
+    self.block_layouts = {}
 
   end
 end
