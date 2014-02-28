@@ -15,6 +15,8 @@ describe NoCms::Pages::Page do
       subject { page }
 
       it("should find the page") { expect(page.status_code).to eq 200 }
+      it("should display page's title") { expect(page).to have_selector('h1', text: cms_page.title) }
+      it("should display page's body") { expect(page).to have_selector('p', text: cms_page.body) }
 
     end
 
