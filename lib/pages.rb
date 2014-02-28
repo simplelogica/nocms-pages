@@ -1,7 +1,7 @@
 require "nocms/pages/engine"
 require 'nocms/pages/configuration'
 
-module NoCMS
+module NoCms
   module Pages
   end
 end

@@ -127,9 +127,9 @@ PLATFORMS
 DEPENDENCIES
   capybara
   database_cleaner
-  globalize (~> 4.0.0)
   factory_girl
   faker
+  globalize (~> 4.0.0)
   nocms-pages!
   rspec-rails (~> 3.0.0.beta)
   sqlite3

@@ -1,4 +1,4 @@
-module NoCMS
+module NoCms
   module Pages
     module ApplicationHelper
     end

@@ -1,4 +1,4 @@
-NoCMS::Pages.configure do |config|
+NoCms::Pages.configure do |config|
 
   # In this section we configure block layouts. It's just an array of layouts, each consisting on a hash.
   # Each layout has a template and a list of fields with a type.

@@ -1,4 +1,4 @@
-NoCMS::Pages.configure do |config|
+NoCms::Pages.configure do |config|
 
   # In this section we configure block layouts. It's just an array of layouts, each consisting on a hash.
   # Each layout has a template and a list of fields with a type.
@@ -21,5 +21,24 @@ NoCMS::Pages.configure do |config|
   #   }
   # }
   # config.block_layouts = {}
+
+  config.block_layouts = {
+    'default' => {
+      template: 'default',
+      fields: {
+        title: :string,
+        body: :text
+      }
+    },
+    'title-3_columns' => {
+      template: 'title_3_columns',
+      fields: {
+        title: :string,
+        column_1: :text,
+        column_2: :text,
+        column_3: :text
+      }
+    }
+  }
 
 end

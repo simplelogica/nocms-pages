@@ -6,7 +6,7 @@ require "nocms/pages/version"
 # Describe your gem and declare its dependencies:
 Gem::Specification.new do |s|
   s.name        = "nocms-pages"
-  s.version     = NoCMS::Pages::VERSION
+  s.version     = NoCms::Pages::VERSION
   s.authors     = ["David J. Brenes"]
   s.email       = ["david.brenes@simplelogica.net"]
   s.homepage    = "http://www.simplelogica.net"
