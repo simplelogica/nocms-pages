@@ -11,12 +11,33 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140226145439) do
+ActiveRecord::Schema.define(version: 20140227163905) do
+
+  create_table "no_cms_pages_block_translations", force: true do |t|
+    t.integer "no_cms_pages_block_id"
+    t.string  "locale"
+    t.string  "layout"
+    t.text    "fields_info",           default: "--- {}\n"
+  end
+
+  add_index "no_cms_pages_block_translations", ["no_cms_pages_block_id"], name: "index_no_cms_pages_block_translations_on_no_cms_pages_block_id"
+
+  create_table "no_cms_pages_blocks", force: true do |t|
+    t.integer  "page_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "no_cms_pages_blocks", ["page_id"], name: "index_no_cms_pages_blocks_on_page_id"
 
   create_table "no_cms_pages_page_translations", force: true do |t|
-    t.string "title"
-    t.string "body"
+    t.integer "no_cms_pages_page_id"
+    t.string  "locale"
+    t.string  "title"
+    t.string  "body"
   end
+
+  add_index "no_cms_pages_page_translations", ["no_cms_pages_page_id"], name: "index_no_cms_pages_page_translations_on_no_cms_pages_page_id"
 
   create_table "no_cms_pages_pages", force: true do |t|
     t.datetime "created_at"
