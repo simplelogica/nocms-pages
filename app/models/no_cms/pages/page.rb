@@ -13,5 +13,9 @@ module NoCms::Pages
       self.slug = title.parameterize if slug.blank? && !title.nil?
     end
 
+    def path
+      "/#{slug}"
+    end
+
   end
 end
