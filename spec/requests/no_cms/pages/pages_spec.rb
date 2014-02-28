@@ -12,7 +12,30 @@ describe NoCms::Pages::Page do
     context "if page exists" do
 
       before do
+        NoCms::Pages.configure do |config|
+          config.block_layouts = {
+            'default' => {
+              template: 'default',
+              fields: {
+                title: :string,
+                body: :text
+              }
+            },
+            'title-3_columns' => {
+              template: 'title-long_text',
+              fields: {
+                title: :string,
+                column_1: :text,
+                column_2: :text,
+                column_3: :text
+              }
+            }
+          }
+
+        end
+
         page_blocks
+
         visit cms_page.path
       end
 
