@@ -46,15 +46,15 @@ describe NoCms::Pages::Page do
       it("should display page's body") { expect(page).to have_selector('p', text: cms_page.body) }
 
       it("should display default layout block") do
-        expect(page).to have_selector('p.title', text: block_default_layout.title)
-        expect(page).to have_selector('p.body', text: block_default_layout.body)
+        expect(page).to have_selector('.title', text: block_default_layout.title)
+        expect(page).to have_selector('.body', text: block_default_layout.body)
       end
 
       it("should display 3 columns layout block") do
-        expect(page).to have_selector('p.title', text: block_3_columns_layout.title)
-        expect(page).to have_selector('p.column_1', text: block_3_columns_layout.column_1)
-        expect(page).to have_selector('p.column_2', text: block_3_columns_layout.column_2)
-        expect(page).to have_selector('p.column_3', text: block_3_columns_layout.column_3)
+        expect(page).to have_selector('.title', text: block_3_columns_layout.title)
+        expect(page).to have_selector('.column_1', text: block_3_columns_layout.column_1)
+        expect(page).to have_selector('.column_2', text: block_3_columns_layout.column_2)
+        expect(page).to have_selector('.column_3', text: block_3_columns_layout.column_3)
       end
 
     end
