@@ -1,4 +1,4 @@
-module NoCMS
+module NoCms
   module Pages
     class ApplicationController < ActionController::Base
     end

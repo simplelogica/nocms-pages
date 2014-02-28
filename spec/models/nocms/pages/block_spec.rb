@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe NoCMS::Pages::Block do
+describe NoCms::Pages::Block do
   it_behaves_like "model with required attributes", :nocms_block, [:layout, :page]
 
   context "when blocks have layouts" do
@@ -8,7 +8,7 @@ describe NoCMS::Pages::Block do
     context "with simple fields" do
 
       before do
-        NoCMS::Pages.configure do |config|
+        NoCms::Pages.configure do |config|
           config.block_layouts = {
             'title-long_text' => {
               template: 'title-long_text',
@@ -21,7 +21,7 @@ describe NoCMS::Pages::Block do
         end
       end
 
-      let(:block_with_layout) { NoCMS::Pages::Block.create attributes_for(:nocms_block).merge(layout: 'title-long_text', title: block_title) }
+      let(:block_with_layout) { NoCms::Pages::Block.create attributes_for(:nocms_block).merge(layout: 'title-long_text', title: block_title) }
       let(:block_title) { Faker::Lorem.sentence }
 
       subject { block_with_layout }

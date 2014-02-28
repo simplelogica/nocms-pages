@@ -1,4 +1,4 @@
-module NoCMS::Pages
+module NoCms::Pages
   class Page < ActiveRecord::Base
 
     has_many :blocks, inverse_of: :page

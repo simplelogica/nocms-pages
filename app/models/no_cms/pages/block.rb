@@ -1,4 +1,4 @@
-module NoCMS::Pages
+module NoCms::Pages
   class Block < ActiveRecord::Base
 
     belongs_to :page
@@ -33,7 +33,7 @@ module NoCMS::Pages
     validates :page, :layout, presence: true
 
     def layout_config
-      NoCMS::Pages.block_layouts.stringify_keys[layout]
+      NoCms::Pages.block_layouts.stringify_keys[layout]
     end
 
     def method_missing(m, *args, &block)

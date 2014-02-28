@@ -1,4 +1,4 @@
-module NoCMS
+module NoCms
   class PagesGenerator < Rails::Generators::Base
 
     source_root File.expand_path("../templates/", __FILE__)
