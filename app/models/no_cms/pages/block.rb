@@ -36,6 +36,10 @@ module NoCms::Pages
       NoCms::Pages.block_layouts.stringify_keys[layout]
     end
 
+    def template
+      layout_config[:template] if layout_config
+    end
+
     def method_missing(m, *args, &block)
       field = m.to_s
       write_accessor = field.ends_with? '='

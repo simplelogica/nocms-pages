@@ -31,7 +31,7 @@ NoCms::Pages.configure do |config|
       }
     },
     'title-3_columns' => {
-      template: 'title-long_text',
+      template: 'title_3_columns',
       fields: {
         title: :string,
         column_1: :text,

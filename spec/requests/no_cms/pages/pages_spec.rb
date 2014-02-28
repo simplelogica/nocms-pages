@@ -22,7 +22,7 @@ describe NoCms::Pages::Page do
               }
             },
             'title-3_columns' => {
-              template: 'title-long_text',
+              template: 'title_3_columns',
               fields: {
                 title: :string,
                 column_1: :text,
@@ -51,7 +51,7 @@ describe NoCms::Pages::Page do
       end
 
       it("should display 3 columns layout block") do
-        expect(page).to have_selector('.title', text: block_3_columns_layout.title)
+        expect(page).to have_selector('h2', text: block_3_columns_layout.title)
         expect(page).to have_selector('.column_1', text: block_3_columns_layout.column_1)
         expect(page).to have_selector('.column_2', text: block_3_columns_layout.column_2)
         expect(page).to have_selector('.column_3', text: block_3_columns_layout.column_3)
