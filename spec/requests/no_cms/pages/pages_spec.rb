@@ -65,5 +65,15 @@ describe NoCms::Pages::Page do
 
     end
 
+    context "with nested pages" do
+
+      let(:nested_cms_page) { create :nocms_page, parent: cms_page }
+
+      before { visit nested_cms_page.path }
+
+      it("should find the page") { expect(page.status_code).to eq 200 }
+
+    end
+
   end
 end

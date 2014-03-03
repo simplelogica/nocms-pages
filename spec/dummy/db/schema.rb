@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140228114240) do
+ActiveRecord::Schema.define(version: 20140303100954) do
 
   create_table "no_cms_pages_block_translations", force: true do |t|
     t.integer "no_cms_pages_block_id"
@@ -36,6 +36,7 @@ ActiveRecord::Schema.define(version: 20140228114240) do
     t.string  "title"
     t.string  "body"
     t.string  "slug"
+    t.string  "path"
   end
 
   add_index "no_cms_pages_page_translations", ["no_cms_pages_page_id"], name: "index_no_cms_pages_page_translations_on_no_cms_pages_page_id"
@@ -43,6 +44,10 @@ ActiveRecord::Schema.define(version: 20140228114240) do
   create_table "no_cms_pages_pages", force: true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "parent_id"
+    t.integer  "lft"
+    t.integer  "rgt"
+    t.integer  "depth"
   end
 
 end
