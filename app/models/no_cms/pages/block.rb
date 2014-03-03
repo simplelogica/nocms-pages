@@ -10,6 +10,7 @@ module NoCms::Pages
     end
 
     after_initialize :set_blank_fields
+    after_create :set_default_position
 
     def assign_attributes new_attributes
       fields = []
@@ -70,6 +71,10 @@ module NoCms::Pages
 
     def set_blank_fields
       self.fields_info ||= {}
+    end
+
+    def set_default_position
+      self.update_attribute :position, ((page.blocks.pluck(:position).compact.max || 0) + 1) if self.position.blank?
     end
   end
 end
