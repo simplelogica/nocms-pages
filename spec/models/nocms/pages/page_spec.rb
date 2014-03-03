@@ -27,4 +27,12 @@ describe NoCms::Pages::Page do
     it("should have a nested path") { expect(nested_page.path).to eq "/#{page.slug}/#{nested_page.slug}" }
 
   end
+
+  context "regarding templates" do
+
+    it "should detect templates from app folder" do
+      expect(NoCms::Pages::Page.templates).to match_array ['test']
+    end
+
+  end
 end
