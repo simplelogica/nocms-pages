@@ -75,4 +75,32 @@ describe NoCms::Pages::Block do
 
     end
   end
+
+  context "when asigning blocks to pages" do
+
+    let(:page) { create :nocms_page }
+    let(:block_1) { create :nocms_block, page: page }
+    let(:block_2) { create :nocms_block, page: page }
+
+    it "blocks positions should be correctly assigned" do
+      expect(block_1.position).to eq 1
+      expect(block_2.position).to eq 2
+    end
+
+    context "when having assigned a different position to a block" do
+
+      let(:last_block) { create :nocms_block, page: page }
+
+      before do
+        block_1
+        block_2.update_attribute :position, 10
+      end
+
+      it "new block should be the last one" do
+        expect(last_block.position).to eq 11
+      end
+
+    end
+
+  end
 end
