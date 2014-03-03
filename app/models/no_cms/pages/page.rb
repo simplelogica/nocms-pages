@@ -9,6 +9,8 @@ module NoCms::Pages
 
     before_validation :set_slug
 
+    acts_as_nested_set
+
     def set_slug
       self.slug = title.parameterize if slug.blank? && !title.nil?
     end
