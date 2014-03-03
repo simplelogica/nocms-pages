@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140228114240) do
+ActiveRecord::Schema.define(version: 20140303092928) do
 
   create_table "no_cms_pages_block_translations", force: true do |t|
     t.integer "no_cms_pages_block_id"
@@ -43,6 +43,10 @@ ActiveRecord::Schema.define(version: 20140228114240) do
   create_table "no_cms_pages_pages", force: true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "parent_id"
+    t.integer  "lft"
+    t.integer  "rgt"
+    t.integer  "depth"
   end
 
 end
