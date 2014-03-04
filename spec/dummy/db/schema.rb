@@ -53,7 +53,8 @@ ActiveRecord::Schema.define(version: 20140304094052) do
   end
 
   create_table "test_images", force: true do |t|
-    t.string   "image"
+    t.string   "logo"
+    t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

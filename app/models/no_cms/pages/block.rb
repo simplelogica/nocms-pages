@@ -27,12 +27,25 @@ module NoCms::Pages
       !layout_config.nil? && !layout_config[:fields].symbolize_keys[field.to_sym].nil?
     end
 
+    def field_type field
+      return nil unless has_field?(field)
+      layout_config[:fields].symbolize_keys[field.to_sym]
+    end
+
     def read_field field
       fields_info[field.to_sym] if has_field?(field)
     end
 
     def write_field field, value
-      fields_info[field.to_sym] = value if has_field?(field)
+      return nil unless has_field?(field)
+      field_type = field_type field
+      # If field type is a symbol, then it's a simple type and we just save the value
+      if field_type.is_a? Symbol
+        fields_info[field.to_sym] = value
+      else # If it's not a symbol then we create a new object or update the previous one
+        fields_info[field.to_sym] ||= field_type.new
+        fields_info[field.to_sym].assign_attributes value
+      end
     end
 
     # In this missing method we check wether we're asking for one field
