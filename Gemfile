@@ -18,6 +18,7 @@ gemspec
 
 group :development, :test do
   gem 'faker'
+  gem 'carrierwave' # For development and testing purposes (Images)
 end
 
 group :test do

@@ -43,6 +43,11 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
+    carrierwave (0.10.0)
+      activemodel (>= 3.2.0)
+      activesupport (>= 3.2.0)
+      json (>= 1.7)
+      mime-types (>= 1.16)
     database_cleaner (1.0.1)
     diff-lcs (1.2.5)
     erubis (2.7.0)
@@ -55,6 +60,7 @@ GEM
       activerecord (>= 4.0.0, < 5)
     hike (1.2.3)
     i18n (0.6.9)
+    json (1.8.1)
     mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
@@ -129,6 +135,7 @@ PLATFORMS
 DEPENDENCIES
   awesome_nested_set (~> 2.1.6)
   capybara
+  carrierwave
   database_cleaner
   factory_girl
   faker
