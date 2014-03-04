@@ -100,6 +100,7 @@ describe NoCms::Pages::Block do
         )
       }
 
+      before { subject }
       subject { block_with_layout }
 
       it("should respond to layout fields") do
@@ -113,6 +114,10 @@ describe NoCms::Pages::Block do
 
       it("should return objects with the right value") do
         expect(subject.logo.name).to eq image_attributes[:name]
+      end
+
+      it("should save related objects") do
+        expect(TestImage.first).to_not be_nil
       end
 
     end

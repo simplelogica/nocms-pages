@@ -11,6 +11,7 @@ module NoCms::Pages
 
     after_initialize :set_blank_fields
     after_create :set_default_position
+    before_save :save_related_objects
 
     validates :fields_info, presence: { allow_blank: true }
     validates :page, :layout, presence: true
@@ -99,6 +100,14 @@ module NoCms::Pages
 
     def set_default_position
       self.update_attribute :position, ((page.blocks.pluck(:position).compact.max || 0) + 1) if self.position.blank?
+    end
+
+    def save_related_objects
+      fields_info.each do |field_id, object|
+        if object.is_a?(ActiveRecord::Base)
+          object.save!
+        end
+      end
     end
   end
 end
