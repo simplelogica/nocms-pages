@@ -21,5 +21,10 @@ module NoCms::Pages
       self.update_attribute :path, "#{ancestors.map(&:path).join}/#{slug}"
     end
 
+    def self.templates
+      Dir[Rails.root.join('app', 'views', 'no_cms', 'pages', 'pages', '*.html.erb').to_s]. # We get all page templates
+        map { |f| File.basename(f, '.html.erb') }.uniq.sort # And get their names
+    end
+
   end
 end

@@ -75,5 +75,15 @@ describe NoCms::Pages::Page do
 
     end
 
+    context "with templates" do
+
+      let(:cms_page) { create :nocms_page, template: 'test' }
+
+      before { visit cms_page.path }
+
+      it("should display page's title") { expect(page).to have_selector('.test-template', text: cms_page.title) }
+
+    end
+
   end
 end

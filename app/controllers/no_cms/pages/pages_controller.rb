@@ -5,6 +5,8 @@ module NoCms::Pages
     def show
       @page = Page.where(path: "/#{params[:path]}").first
       raise ActionController::RoutingError.new('Not Found') if @page.nil?
+
+      render @page.template unless @page.template.blank?
     end
   end
 end
