@@ -12,24 +12,6 @@ module NoCms::Pages
     after_initialize :set_blank_fields
     after_create :set_default_position
 
-    def assign_attributes new_attributes
-      fields = []
-
-      set_blank_fields
-
-      new_layout = new_attributes[:layout] || new_attributes['layout']
-      self.layout = new_layout unless new_layout.nil?
-      fields = new_attributes.select{|k, _| has_field? k }.symbolize_keys
-      new_attributes.reject!{|k, _| has_field? k }
-
-      super(new_attributes)
-
-      fields.each do |field_name, value|
-        self.write_field field_name, value
-      end
-
-    end
-
     validates :fields_info, presence: { allow_blank: true }
     validates :page, :layout, presence: true
 
@@ -39,20 +21,6 @@ module NoCms::Pages
 
     def template
       layout_config[:template] if layout_config
-    end
-
-    def method_missing(m, *args, &block)
-      field = m.to_s
-      write_accessor = field.ends_with? '='
-      field.gsub!(/\=$/, '')
-
-      if has_field?(field)
-        write_accessor ?
-          write_field(field, args.first) :
-          read_field(field.to_sym)
-      else
-        super
-      end
     end
 
     def has_field? field
@@ -65,6 +33,49 @@ module NoCms::Pages
 
     def write_field field, value
       fields_info[field.to_sym] = value if has_field?(field)
+    end
+
+    # In this missing method we check wether we're asking for one field
+    # in which case we will read or write ir
+    def method_missing(m, *args, &block)
+      # We get the name of the field stripping out the '=' for writers
+      field = m.to_s
+      write_accessor = field.ends_with? '='
+      field.gsub!(/\=$/, '')
+
+      # If this field actually exists, then we write it or read it.
+      if has_field?(field)
+        write_accessor ?
+          write_field(field, args.first) :
+          read_field(field.to_sym)
+      else
+        super
+      end
+    end
+
+    # When we are assigning attributes (this method is called in new, create...)
+    # we must split those fields from our current layout and those who are not
+    # (they must be attributes).
+    # Attributes are processed the usual way and fields are written later
+    def assign_attributes new_attributes
+      fields = []
+
+      set_blank_fields
+
+      # We get the layout
+      new_layout = new_attributes[:layout] || new_attributes['layout']
+      self.layout = new_layout unless new_layout.nil?
+
+      # And now separate fields and attributes
+      fields = new_attributes.select{|k, _| has_field? k }.symbolize_keys
+      new_attributes.reject!{|k, _| has_field? k }
+
+      super(new_attributes)
+
+      fields.each do |field_name, value|
+        self.write_field field_name, value
+      end
+
     end
 
     private
