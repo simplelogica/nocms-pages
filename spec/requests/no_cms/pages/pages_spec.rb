@@ -5,9 +5,11 @@ describe NoCms::Pages::Page do
   context "when visiting page urls" do
 
     let(:cms_page) { create :nocms_page }
+    let(:image_attributes) { attributes_for(:test_image) }
     let(:block_default_layout) { create :nocms_block, layout: 'default', page: cms_page, title: Faker::Lorem.sentence, body: Faker::Lorem.paragraph }
     let(:block_3_columns_layout) { create :nocms_block, layout: 'title-3_columns', page: cms_page, title: Faker::Lorem.sentence, column_1: Faker::Lorem.paragraph, column_2: Faker::Lorem.paragraph, column_3: Faker::Lorem.paragraph }
-    let(:page_blocks) { [block_default_layout , block_3_columns_layout] }
+    let(:block_logo) { create :nocms_block, layout: 'logo-caption', page: cms_page, caption: Faker::Lorem.sentence, logo: image_attributes }
+    let(:page_blocks) { [block_default_layout , block_3_columns_layout, block_logo] }
 
     context "if page exists" do
 
@@ -28,6 +30,13 @@ describe NoCms::Pages::Page do
                 column_1: :text,
                 column_2: :text,
                 column_3: :text
+              }
+            },
+            'logo-caption' => {
+              template: 'logo_caption',
+              fields: {
+                caption: :string,
+                logo: TestImage
               }
             }
           }
@@ -55,6 +64,11 @@ describe NoCms::Pages::Page do
         expect(page).to have_selector('.column_1', text: block_3_columns_layout.column_1)
         expect(page).to have_selector('.column_2', text: block_3_columns_layout.column_2)
         expect(page).to have_selector('.column_3', text: block_3_columns_layout.column_3)
+      end
+
+      it("should display logo layout block") do
+        expect(page).to have_selector('.caption', text: block_logo.caption)
+        expect(page).to have_selector("img[src='#{block_logo.logo.logo.url}']")
       end
 
     end

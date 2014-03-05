@@ -3,6 +3,8 @@ module NoCms::Pages
 
     belongs_to :page
 
+    attr_reader :cached_objects
+
     translates :layout, :fields_info
 
     class Translation
@@ -11,24 +13,7 @@ module NoCms::Pages
 
     after_initialize :set_blank_fields
     after_create :set_default_position
-
-    def assign_attributes new_attributes
-      fields = []
-
-      set_blank_fields
-
-      new_layout = new_attributes[:layout] || new_attributes['layout']
-      self.layout = new_layout unless new_layout.nil?
-      fields = new_attributes.select{|k, _| has_field? k }.symbolize_keys
-      new_attributes.reject!{|k, _| has_field? k }
-
-      super(new_attributes)
-
-      fields.each do |field_name, value|
-        self.write_field field_name, value
-      end
-
-    end
+    before_save :save_related_objects
 
     validates :fields_info, presence: { allow_blank: true }
     validates :page, :layout, presence: true
@@ -41,11 +26,58 @@ module NoCms::Pages
       layout_config[:template] if layout_config
     end
 
+    def has_field? field
+      # We have the field if...
+      !layout_config.nil? && # We have a layout configuration AND
+        (
+          !layout_config[:fields].symbolize_keys[field.to_sym].nil? || # We have this field OR
+          !layout_config[:fields].symbolize_keys[field.to_s.gsub(/\_id$/, '').to_sym].nil? # we remove the final _id and then we have the field
+        )
+    end
+
+    def field_type field
+      return nil unless has_field?(field)
+      layout_config[:fields].symbolize_keys[field.to_sym]
+    end
+
+    def read_field field
+      return nil unless has_field?(field)
+
+      value = fields_info[field.to_sym] || # first, we get the value
+                @cached_objects[field.to_sym] # or we get it from the cached objects
+
+      # If value is still nil, but the field exists we must get the object from the database
+      if value.nil?
+        field_id = fields_info["#{field}_id".to_sym]
+        value = @cached_objects[field.to_sym] = field_type(field).find(field_id) unless field_id.nil?
+      end
+
+      value
+    end
+
+    def write_field field, value
+      return nil unless has_field?(field)
+      field_type = field_type field
+      # If field type is a model then we update the cached object
+      if field_type.is_a?(Class) && field_type < ActiveRecord::Base
+        # First, we initialize the object if we don't read the object (it loads it into the cached objects)
+        @cached_objects[field.to_sym] = field_type.new if read_field(field).nil?
+        # Then, assign attributes
+        @cached_objects[field.to_sym].assign_attributes value
+      else # If it's a model then  a new object or update the previous one
+        fields_info[field.to_sym] = value
+      end
+    end
+
+    # In this missing method we check wether we're asking for one field
+    # in which case we will read or write ir
     def method_missing(m, *args, &block)
+      # We get the name of the field stripping out the '=' for writers
       field = m.to_s
       write_accessor = field.ends_with? '='
       field.gsub!(/\=$/, '')
 
+      # If this field actually exists, then we write it or read it.
       if has_field?(field)
         write_accessor ?
           write_field(field, args.first) :
@@ -55,26 +87,54 @@ module NoCms::Pages
       end
     end
 
-    def has_field? field
-      !layout_config.nil? && !layout_config[:fields].symbolize_keys[field.to_sym].nil?
+    # When we are assigning attributes (this method is called in new, create...)
+    # we must split those fields from our current layout and those who are not
+    # (they must be attributes).
+    # Attributes are processed the usual way and fields are written later
+    def assign_attributes new_attributes
+      fields = []
+
+      set_blank_fields
+
+      # We get the layout
+      new_layout = new_attributes[:layout] || new_attributes['layout']
+      self.layout = new_layout unless new_layout.nil?
+
+      # And now separate fields and attributes
+      fields = new_attributes.select{|k, _| has_field? k }.symbolize_keys
+      new_attributes.reject!{|k, _| has_field? k }
+
+      super(new_attributes)
+
+      fields.each do |field_name, value|
+        self.write_field field_name, value
+      end
+
     end
 
-    def read_field field
-      fields_info[field.to_sym] if has_field?(field)
-    end
-
-    def write_field field, value
-      fields_info[field.to_sym] = value if has_field?(field)
+    def reload
+      @cached_objects = {}
+      super
     end
 
     private
 
     def set_blank_fields
       self.fields_info ||= {}
+      @cached_objects ||= {}
     end
 
     def set_default_position
       self.update_attribute :position, ((page.blocks.pluck(:position).compact.max || 0) + 1) if self.position.blank?
+    end
+
+    def save_related_objects
+      cached_objects.each do |field, object|
+        if object.is_a?(ActiveRecord::Base) && object.changed?
+          object.save!
+          fields_info["#{field}_id".to_sym] = object.id
+        end
+      end
     end
   end
 end

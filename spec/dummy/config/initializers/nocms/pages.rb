@@ -37,6 +37,13 @@ NoCms::Pages.configure do |config|
         column_1: :text,
         column_2: :text,
         column_3: :text
+      },
+    },
+    'logo-caption' => {
+      template: 'logo_caption',
+      fields: {
+        caption: :string,
+        logo: TestImage
       }
     }
   }

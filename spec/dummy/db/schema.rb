@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140303175058) do
+ActiveRecord::Schema.define(version: 20140304094052) do
 
   create_table "no_cms_pages_block_translations", force: true do |t|
     t.integer "no_cms_pages_block_id"
@@ -50,6 +50,13 @@ ActiveRecord::Schema.define(version: 20140303175058) do
     t.integer  "rgt"
     t.integer  "depth"
     t.string   "template"
+  end
+
+  create_table "test_images", force: true do |t|
+    t.string   "logo"
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
 end
