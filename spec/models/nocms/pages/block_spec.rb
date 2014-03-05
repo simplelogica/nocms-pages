@@ -123,14 +123,34 @@ describe NoCms::Pages::Block do
       context "when related objects are modified outside" do
 
         let(:logo) { TestImage.first }
+        let(:new_testing_name) { "new testing name" }
 
         before do
           subject
-          logo.update_attribute :name, "new testing name"
+          logo.update_attribute :name, new_testing_name
         end
 
         it("should get those modifications") do
-          expect(subject.reload.logo.name).to eq logo.name
+          expect(subject.reload.logo.name).to eq new_testing_name
+        end
+
+        it("should not overwrite those modifications") do
+          subject.save!
+          expect(logo.reload.name).to eq new_testing_name
+        end
+
+      end
+
+      context "when we update the related object" do
+
+        let(:logo) { TestImage.first }
+        let(:new_testing_name) { "new testing name" }
+        before do
+          subject.update_attributes logo: { name: new_testing_name }
+        end
+
+        it("should be modified in database") do
+          expect(logo.name).to eq new_testing_name
         end
 
       end
