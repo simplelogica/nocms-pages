@@ -1,3 +1,6 @@
+require 'globalize'
+require 'awesome_nested_set'
+
 module NoCms
   module Pages
     class Engine < ::Rails::Engine
