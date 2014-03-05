@@ -3,6 +3,8 @@ module NoCms::Pages
 
     belongs_to :page
 
+    attr_reader :cached_objects
+
     translates :layout, :fields_info
 
     class Translation
@@ -25,7 +27,12 @@ module NoCms::Pages
     end
 
     def has_field? field
-      !layout_config.nil? && !layout_config[:fields].symbolize_keys[field.to_sym].nil?
+      # We have the field if...
+      !layout_config.nil? && # We have a layout configuration AND
+        (
+          !layout_config[:fields].symbolize_keys[field.to_sym].nil? || # We have this field OR
+          !layout_config[:fields].symbolize_keys[field.to_s.gsub(/\_id$/, '').to_sym].nil? # we remove the final _id and then we have the field
+        )
     end
 
     def field_type field
@@ -34,18 +41,31 @@ module NoCms::Pages
     end
 
     def read_field field
-      fields_info[field.to_sym] if has_field?(field)
+      return nil unless has_field?(field)
+
+      value = fields_info[field.to_sym] || # first, we get the value
+                @cached_objects[field.to_sym] # or we get it from the cached objects
+
+      # If value is still nil, but the field exists we must get the object from the database
+      if value.nil?
+        field_id = fields_info["#{field}_id".to_sym]
+        value = @cached_objects[field.to_sym] = field_type(field).find(field_id) unless field_id.nil?
+      end
+
+      value
     end
 
     def write_field field, value
       return nil unless has_field?(field)
       field_type = field_type field
-      # If field type is a symbol, then it's a simple type and we just save the value
-      if field_type.is_a? Symbol
+      # If field type is a model then we update the cached object
+      if field_type.is_a?(Class) && field_type < ActiveRecord::Base
+        # First, we initialize the object if we don't read the object (it loads it into the cached objects)
+        @cached_objects[field.to_sym] = field_type.new if read_field(field).nil?
+        # Then, assign attributes
+        @cached_objects[field.to_sym].assign_attributes value
+      else # If it's a model then  a new object or update the previous one
         fields_info[field.to_sym] = value
-      else # If it's not a symbol then we create a new object or update the previous one
-        fields_info[field.to_sym] ||= field_type.new
-        fields_info[field.to_sym].assign_attributes value
       end
     end
 
@@ -92,10 +112,16 @@ module NoCms::Pages
 
     end
 
+    def reload
+      @cached_objects = {}
+      super
+    end
+
     private
 
     def set_blank_fields
       self.fields_info ||= {}
+      @cached_objects ||= {}
     end
 
     def set_default_position
@@ -103,9 +129,10 @@ module NoCms::Pages
     end
 
     def save_related_objects
-      fields_info.each do |field_id, object|
-        if object.is_a?(ActiveRecord::Base)
+      cached_objects.each do |field, object|
+        if object.is_a?(ActiveRecord::Base) && object.changed?
           object.save!
+          fields_info["#{field}_id".to_sym] = object.id
         end
       end
     end

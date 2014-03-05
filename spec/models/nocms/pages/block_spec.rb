@@ -120,6 +120,21 @@ describe NoCms::Pages::Block do
         expect(TestImage.first).to_not be_nil
       end
 
+      context "when related objects are modified outside" do
+
+        let(:logo) { TestImage.first }
+
+        before do
+          subject
+          logo.update_attribute :name, "new testing name"
+        end
+
+        it("should get those modifications") do
+          expect(subject.reload.logo.name).to eq logo.name
+        end
+
+      end
+
     end
 
   end
