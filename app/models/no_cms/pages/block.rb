@@ -65,7 +65,7 @@ module NoCms::Pages
         # Then, assign attributes
         @cached_objects[field.to_sym].assign_attributes value
       else # If it's a model then  a new object or update the previous one
-        fields_info[field.to_sym] = value
+        self.fields_info = fields_info.merge field.to_sym => value # when updating through an object (i.e. the page updates through nested attributes) fields_info[field.to_sym] = value doesn't work. Kudos to Rubo for this fix
       end
     end
 
@@ -106,10 +106,11 @@ module NoCms::Pages
 
       super(new_attributes)
 
+      Rails.logger.info "Writing #{fields.inspect} to #{self.layout} block"
+
       fields.each do |field_name, value|
         self.write_field field_name, value
       end
-
     end
 
     def reload
