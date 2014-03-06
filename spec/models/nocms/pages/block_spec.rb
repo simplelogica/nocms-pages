@@ -73,6 +73,43 @@ describe NoCms::Pages::Block do
 
       end
 
+      context "when updating one field of the block through the page" do
+
+        let(:new_block_title) { "new #{Faker::Lorem.sentence}" }
+        let(:new_page_title) { "new page #{Faker::Lorem.sentence}" }
+
+        before do
+          subject.page.update_attributes! title: new_page_title, blocks_attributes: { "0" => { title: new_block_title, id: subject.id } }
+        end
+
+        it("should save info in layout field") do
+          subject.reload
+          expect(subject.page.title).to eq new_page_title
+          expect(subject.title).to eq new_block_title
+        end
+
+      end
+
+
+      context "when updating various fields of the block through the page" do
+
+        let(:new_block_title) { "new #{Faker::Lorem.sentence}" }
+        let(:new_block_body) { "new #{Faker::Lorem.paragraph}" }
+        let(:new_page_title) { "new page #{Faker::Lorem.sentence}" }
+
+        before do
+          subject.page.update_attributes! title: new_page_title, blocks_attributes: { "0" => { title: new_block_title, body: new_block_body, id: subject.id } }
+        end
+
+        it("should save info in layout field") do
+          subject.reload
+          expect(subject.page.title).to eq new_page_title
+          expect(subject.title).to eq new_block_title
+          expect(subject.body).to eq new_block_body
+        end
+
+      end
+
     end
 
     context "with related models" do
