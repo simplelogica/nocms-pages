@@ -6,3 +6,8 @@ en:
       no_cms/pages/page:
         title: Title
         body: Body
+  no_cms:
+    pages:
+      blocks:
+        layouts:
+          default: Default layout
