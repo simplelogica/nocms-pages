@@ -2,8 +2,13 @@ en:
   activerecord:
     models:
       no_cms/pages/page: Page
+      no_cms/pages/block: Content Block
     attributes:
       no_cms/pages/page:
+        title: Title
+        body: Body
+      no_cms/pages/block:
+        layout: Layout
         title: Title
         body: Body
   no_cms:
