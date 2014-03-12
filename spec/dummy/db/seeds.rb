@@ -1,4 +1,13 @@
-NoCms::Pages::Page.destroy_all
+NoCms::Pages::Page.delete_all
+NoCms::Pages::Block.delete_all
+
+NoCms::Pages::Page.create!(
+  title: Faker::Lorem.sentence,
+  body: Faker::Lorem.paragraph,
+  slug: ''
+)
+
+puts "created home, visit: #{NoCms::Pages::Page.last.path}"
 
 NoCms::Pages::Page.create(
   title: Faker::Lorem.sentence,
