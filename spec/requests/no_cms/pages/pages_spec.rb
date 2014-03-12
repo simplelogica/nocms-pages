@@ -99,5 +99,17 @@ describe NoCms::Pages::Page do
 
     end
 
+    context "when visiting home" do
+
+      let(:cms_page) { create :nocms_page, slug: '' }
+
+      before { visit cms_page.path }
+
+      it("should display home's title") { expect(page).to have_selector('h1', text: cms_page.title) }
+
+    end
+
   end
+
+
 end
