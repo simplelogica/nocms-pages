@@ -8,14 +8,15 @@ module NoCms::Pages
 
     translates :title, :body, :slug, :path
 
-    validates :title, :body, :slug, presence: true
+    validates :title, :body, presence: true
+    validates :slug, presence: { allow_blank: true }
 
     before_validation :set_slug_and_path
     after_move :rebuild_path
 
     def set_slug_and_path
-      self.slug = title.parameterize if slug.blank? && !title.nil?
-      self.rebuild_path if path.blank?
+      self.slug = title.parameterize if slug.nil? && !title.nil?
+      self.rebuild_path if path.nil?
     end
 
     def rebuild_path
