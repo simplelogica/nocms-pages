@@ -9,7 +9,9 @@ describe NoCms::Pages::Page do
     let(:block_default_layout) { create :nocms_block, layout: 'default', page: cms_page, title: Faker::Lorem.sentence, body: Faker::Lorem.paragraph }
     let(:block_3_columns_layout) { create :nocms_block, layout: 'title-3_columns', page: cms_page, title: Faker::Lorem.sentence, column_1: Faker::Lorem.paragraph, column_2: Faker::Lorem.paragraph, column_3: Faker::Lorem.paragraph }
     let(:block_logo) { create :nocms_block, layout: 'logo-caption', page: cms_page, caption: Faker::Lorem.sentence, logo: image_attributes }
-    let(:page_blocks) { [block_default_layout , block_3_columns_layout, block_logo] }
+    let(:block_draft) { create :nocms_block, layout: 'default', page: cms_page, title: Faker::Lorem.sentence, body: Faker::Lorem.paragraph, draft: true }
+
+    let(:page_blocks) { [block_default_layout , block_3_columns_layout, block_logo, block_draft] }
 
     context "if page exists" do
 
@@ -69,6 +71,11 @@ describe NoCms::Pages::Page do
       it("should display logo layout block") do
         expect(page).to have_selector('.caption', text: block_logo.caption)
         expect(page).to have_selector("img[src='#{block_logo.logo.logo.url}']")
+      end
+
+      it("should display not draft block") do
+        expect(page).to_not have_selector('.title', text: block_draft.title)
+        expect(page).to_not have_selector('.body', text: block_draft.body)
       end
 
     end

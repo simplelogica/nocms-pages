@@ -223,4 +223,17 @@ describe NoCms::Pages::Block do
     end
 
   end
+
+  context "when blocks are marked as draft" do
+
+    let(:no_draft_blocks) { create_list :nocms_block, 2, draft: false }
+    let(:draft_blocks) { create_list :nocms_block, 2, draft: true }
+
+    before { draft_blocks && no_draft_blocks }
+
+    it("should distinguish between drafts and no drafts") do
+      expect(NoCms::Pages::Block.drafts).to match_array draft_blocks
+      expect(NoCms::Pages::Block.no_drafts).to match_array no_draft_blocks
+    end
+  end
 end

@@ -1,11 +1,16 @@
 module NoCms::Pages
   class Block < ActiveRecord::Base
 
+    include Concerns::TranslationScopes
+
+    scope :drafts, ->() { where_with_locale(draft: true) }
+    scope :no_drafts, ->() { where_with_locale(draft: false) }
+
     belongs_to :page
 
     attr_reader :cached_objects
 
-    translates :layout, :fields_info
+    translates :layout, :fields_info, :draft
 
     class Translation
       serialize :fields_info, Hash
