@@ -4,7 +4,7 @@ module NoCms::Pages
     acts_as_nested_set
 
     has_many :blocks, inverse_of: :page, class_name: 'NoCms::Pages::Block'
-    accepts_nested_attributes_for :blocks
+    accepts_nested_attributes_for :blocks, allow_destroy: true
 
     translates :title, :body, :slug, :path
 
