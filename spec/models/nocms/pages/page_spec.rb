@@ -35,4 +35,17 @@ describe NoCms::Pages::Page do
     end
 
   end
+
+  context "when pages are marked as draft" do
+
+    let(:no_draft_pages) { create_list :nocms_page, 2, draft: false }
+    let(:draft_pages) { create_list :nocms_page, 2, draft: true }
+
+    before { draft_pages && no_draft_pages }
+
+    it("should distinguish between drafts and no drafts") do
+      expect(NoCms::Pages::Page.drafts).to match_array draft_pages
+      expect(NoCms::Pages::Page.no_drafts).to match_array no_draft_pages
+    end
+  end
 end

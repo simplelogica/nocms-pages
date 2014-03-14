@@ -1,12 +1,17 @@
 module NoCms::Pages
   class Page < ActiveRecord::Base
 
+    include Concerns::TranslationScopes
+
+    scope :drafts, ->() { where_with_locale(draft: true) }
+    scope :no_drafts, ->() { where_with_locale(draft: false) }
+
     acts_as_nested_set
 
     has_many :blocks, inverse_of: :page, class_name: 'NoCms::Pages::Block'
     accepts_nested_attributes_for :blocks, allow_destroy: true
 
-    translates :title, :body, :slug, :path
+    translates :title, :body, :slug, :path, :draft
 
     validates :title, :body, presence: true
     validates :slug, presence: { allow_blank: true }
