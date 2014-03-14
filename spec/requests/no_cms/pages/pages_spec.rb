@@ -106,6 +106,14 @@ describe NoCms::Pages::Page do
 
     end
 
+    context "if page is in draft" do
+
+      let(:cms_page) { create :nocms_page, draft: true }
+
+      it("should not find the page") { expect{visit "#{cms_page.path}"}.to raise_error(ActionController::RoutingError) }
+
+    end
+
     context "when visiting home" do
 
       let(:cms_page) { create :nocms_page, slug: '' }
