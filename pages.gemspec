@@ -7,9 +7,9 @@ require "nocms/pages/version"
 Gem::Specification.new do |s|
   s.name        = "nocms-pages"
   s.version     = NoCms::Pages::VERSION
-  s.authors     = ["David J. Brenes"]
-  s.email       = ["david.brenes@simplelogica.net"]
-  s.homepage    = "http://www.simplelogica.net"
+  s.authors     = ["Simplelogica"]
+  s.email       = ["gems@simplelogica.net"]
+  s.homepage    = "https://github.com/simplelogica/nocms-pages"
   s.summary     = "Gem with content page functionality independent from any CMS and embeddable in any Rails 4 app"
   s.description = "Gem with content page functionality independent from any CMS and embeddable in any Rails 4 app"
 
