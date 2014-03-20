@@ -1,6 +1,6 @@
 module NoCms
   module Pages
-    class ApplicationController < ActionController::Base
+    class ApplicationController < ::ApplicationController
     end
   end
 end
