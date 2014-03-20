@@ -141,7 +141,7 @@ module NoCms::Pages
 
     def save_related_objects
       cached_objects.each do |field, object|
-        if object.is_a?(ActiveRecord::Base) && object.changed?
+        if object.is_a?(ActiveRecord::Base) && (object.changed? || object.new_record?)
           object.save!
           fields_info["#{field}_id".to_sym] = object.id
         end
