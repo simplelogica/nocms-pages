@@ -53,10 +53,15 @@ module NoCms::Pages
 
       # If value is still nil, but the field exists we must get the object from the database
       if value.nil?
+        field_type = field_type(field)
         field_id = fields_info["#{field}_id".to_sym]
-        value = @cached_objects[field.to_sym] = field_type(field).find(field_id) unless field_id.nil?
+        value = @cached_objects[field.to_sym] = field_type.find(field_id) unless field_id.nil?
       end
 
+      # If value is still nil, and the field_type is an ActiveRecord class, then we
+      if value.nil? && field_type.is_a?(Class)
+        value = @cached_objects[field.to_sym] = field_type.new
+      end
       value
     end
 
