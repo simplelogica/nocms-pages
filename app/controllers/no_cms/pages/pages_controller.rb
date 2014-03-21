@@ -5,7 +5,7 @@ module NoCms::Pages
     def show
       @page = Page.no_drafts.where(path: "/#{params[:path]}").first
       raise ActionController::RoutingError.new('Not Found') if @page.nil?
-
+      @blocks = @page.blocks.not_draft
       render @page.template unless @page.template.blank?
     end
   end
