@@ -29,8 +29,9 @@ module NoCms::Pages
     end
 
     def self.templates
-      Dir[Rails.root.join('app', 'views', 'no_cms', 'pages', 'pages', '*.html.erb').to_s]. # We get all page templates
-        map { |f| File.basename(f, '.html.erb') }.uniq.sort # And get their names
+      @templates ||= (Gem::Specification.all.map(&:gem_dir) + [Rails.root]). # We get all gems and rails paths
+        map{ |d| Dir["#{d}/app/views/no_cms/pages/pages/*.html.erb"]}. # We get all page templates
+        flatten.map { |f| File.basename(f, '.html.erb') }.uniq.sort # And get their names
     end
 
   end
