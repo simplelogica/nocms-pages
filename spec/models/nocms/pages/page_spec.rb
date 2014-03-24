@@ -5,7 +5,7 @@ describe NoCms::Pages::Page do
   it_behaves_like "model with has many relationship", :nocms_page, :nocms_block, :blocks, :page
   it_behaves_like "model with has many relationship", :nocms_page, :nocms_page, :children, :parent
 
-  context "when saving" do
+  context "when creating" do
 
     let(:page) { create :nocms_page, title: testing_title}
     let(:testing_title) { "testing slug" }
@@ -17,6 +17,21 @@ describe NoCms::Pages::Page do
 
   end
 
+  context "when updating" do
+
+    let(:page) { create :nocms_page}
+    let(:updated_slug) { "updated-slug" }
+
+    before {
+      page.update_attributes slug: updated_slug
+    }
+
+    subject { page }
+
+    it("should rebuild the path") { expect(page.path).to eq "/#{updated_slug}" }
+
+  end
+
   context "when nesting" do
 
     let(:page) { create :nocms_page }
@@ -25,6 +40,31 @@ describe NoCms::Pages::Page do
     subject { nested_page }
 
     it("should have a nested path") { expect(nested_page.path).to eq "/#{page.slug}/#{nested_page.slug}" }
+
+    context "when updating the parent" do
+
+      let(:updated_slug) { "updated-slug" }
+
+      before {
+        page.update_attributes slug: updated_slug
+      }
+
+      subject { page }
+
+      it("should rebuild the path") { expect(nested_page.path).to eq "/#{updated_slug}/#{nested_page.slug}" }
+
+    end
+
+  end
+
+  context "when duplicating a path" do
+
+    let(:page) { create :nocms_page}
+    let(:duplicated_page) { build :nocms_page, slug: page.slug}
+
+    subject { duplicated_page }
+
+    it("should not have a valid path") { expect(subject.errors_on(:path)).to_not be_blank }
 
   end
 
