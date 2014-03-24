@@ -17,11 +17,12 @@ module NoCms::Pages
     validates :slug, presence: { allow_blank: true }
 
     before_validation :set_slug_and_path
+
     after_move :rebuild_path
 
     def set_slug_and_path
       self.slug = title.parameterize if slug.nil? && !title.nil?
-      self.rebuild_path if path.nil?
+      self.rebuild_path if path.nil? || attribute_changed?('slug')
     end
 
     def rebuild_path

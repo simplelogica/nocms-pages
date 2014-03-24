@@ -5,7 +5,7 @@ describe NoCms::Pages::Page do
   it_behaves_like "model with has many relationship", :nocms_page, :nocms_block, :blocks, :page
   it_behaves_like "model with has many relationship", :nocms_page, :nocms_page, :children, :parent
 
-  context "when saving" do
+  context "when creating" do
 
     let(:page) { create :nocms_page, title: testing_title}
     let(:testing_title) { "testing slug" }
@@ -14,6 +14,21 @@ describe NoCms::Pages::Page do
 
     it("should generate a slug") { expect(page.slug).to eq testing_title.parameterize }
     it("should generate a path") { expect(page.path).to eq "/#{page.slug}" }
+
+  end
+
+  context "when updating" do
+
+    let(:page) { create :nocms_page}
+    let(:updated_slug) { "updated-slug" }
+
+    before {
+      page.update_attributes slug: updated_slug
+    }
+
+    subject { page }
+
+    it("should rebuild the path") { expect(page.path).to eq "/#{updated_slug}" }
 
   end
 
