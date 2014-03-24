@@ -41,6 +41,20 @@ describe NoCms::Pages::Page do
 
     it("should have a nested path") { expect(nested_page.path).to eq "/#{page.slug}/#{nested_page.slug}" }
 
+    context "when updating the parent" do
+
+      let(:updated_slug) { "updated-slug" }
+
+      before {
+        page.update_attributes slug: updated_slug
+      }
+
+      subject { page }
+
+      it("should rebuild the path") { expect(nested_page.path).to eq "/#{updated_slug}/#{nested_page.slug}" }
+
+    end
+
   end
 
   context "regarding templates" do

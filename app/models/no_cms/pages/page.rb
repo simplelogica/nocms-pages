@@ -27,6 +27,7 @@ module NoCms::Pages
 
     def rebuild_path
       self.update_attribute :path, "#{ancestors.map(&:path).join}/#{slug}"
+      descendants.each(&:rebuild_path)
     end
 
     def self.templates
