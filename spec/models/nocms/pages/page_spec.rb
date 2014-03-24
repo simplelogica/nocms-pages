@@ -31,7 +31,7 @@ describe NoCms::Pages::Page do
   context "regarding templates" do
 
     it "should detect templates from app folder" do
-      expect(NoCms::Pages::Page.templates).to match_array ['test']
+      expect(NoCms::Pages::Page.templates).to match_array ['show', 'test']
     end
 
   end
