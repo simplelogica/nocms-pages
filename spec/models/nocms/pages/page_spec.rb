@@ -57,6 +57,17 @@ describe NoCms::Pages::Page do
 
   end
 
+  context "when duplicating a path" do
+
+    let(:page) { create :nocms_page}
+    let(:duplicated_page) { build :nocms_page, slug: page.slug}
+
+    subject { duplicated_page }
+
+    it("should not have a valid path") { expect(subject.errors_on(:path)).to_not be_blank }
+
+  end
+
   context "regarding templates" do
 
     it "should detect templates from app folder" do

@@ -15,6 +15,7 @@ module NoCms::Pages
 
     validates :title, :body, presence: true
     validates :slug, presence: { allow_blank: true }
+    validates :path, presence: true, uniqueness: true
 
     before_validation :set_slug_and_path
 
