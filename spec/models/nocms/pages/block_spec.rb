@@ -182,12 +182,18 @@ describe NoCms::Pages::Block do
 
         let(:logo) { TestImage.first }
         let(:new_testing_name) { "new testing name" }
+        let(:new_image_attributes) { attributes_for(:test_image,:second_image) }
+
         before do
-          subject.update_attributes logo: { name: new_testing_name }
+          subject.update_attributes logo: { name: new_testing_name, logo: new_image_attributes[:logo] }
         end
 
         it("should be modified in database") do
           expect(logo.name).to eq new_testing_name
+        end
+
+        it("should modify uploaded files") do
+          expect(logo[:logo]).to eq File.basename(new_image_attributes[:logo].path)
         end
 
       end
