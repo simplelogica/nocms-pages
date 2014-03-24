@@ -198,6 +198,26 @@ describe NoCms::Pages::Block do
 
       end
 
+      context "when the related object is not valid" do
+
+        let(:logo) { TestImage.first }
+        let(:new_testing_caption) { "new testing caption" }
+
+        before do
+          subject.update_attributes caption: new_testing_caption, logo: { name: nil }
+        end
+
+        it("should modify the block attribute") do
+          expect(subject.reload.caption).to eq new_testing_caption
+        end
+
+        it("should not modify the invalid objects") do
+          expect(subject.logo.name).to_not eq logo.name
+        end
+
+      end
+
+
     end
 
   end

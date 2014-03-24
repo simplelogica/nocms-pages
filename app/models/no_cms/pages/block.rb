@@ -140,9 +140,12 @@ module NoCms::Pages
     end
 
     def save_related_objects
+      # Now we save each activerecord related object
       cached_objects.each do |field, object|
-        if object.is_a?(ActiveRecord::Base)
-          object.save!
+        # Notice that we don't care if the object is actually saved
+        # We don't care because there may be some cases where no real information is sent to an object but something is sent (i.e. the locale in a new Globalize translation) and then the object is created empty
+        # When this happens if we save! the object an error is thrown and we can't leave the object blank
+        if object.is_a?(ActiveRecord::Base) && object.save
           fields_info["#{field}_id".to_sym] = object.id
         end
       end
