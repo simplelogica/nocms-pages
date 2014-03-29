@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe NoCms::Pages::Block do
   it_behaves_like "model with required attributes", :nocms_block, [:layout, :page]
+  it_behaves_like "model with has many relationship", :nocms_block, :nocms_block, :children, :parent
 
   context "when blocks have layouts" do
 
