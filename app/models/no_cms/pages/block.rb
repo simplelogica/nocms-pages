@@ -8,6 +8,9 @@ module NoCms::Pages
 
     belongs_to :page
 
+    belongs_to :parent, class_name: "Block"
+    has_many :children, class_name: "Block", foreign_key: 'parent_id'
+
     attr_reader :cached_objects
 
     translates :layout, :fields_info, :draft
