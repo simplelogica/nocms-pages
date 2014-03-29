@@ -8,8 +8,9 @@ module NoCms::Pages
 
     belongs_to :page
 
-    belongs_to :parent, class_name: "Block"
-    has_many :children, class_name: "Block", foreign_key: 'parent_id'
+    belongs_to :parent, class_name: "NoCms::Pages::Block"
+    has_many :children, class_name: "NoCms::Pages::Block", foreign_key: 'parent_id', inverse_of: :parent
+    accepts_nested_attributes_for :children, allow_destroy: true
 
     attr_reader :cached_objects
 
