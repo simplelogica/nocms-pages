@@ -5,11 +5,12 @@ module NoCms::Pages
 
     scope :drafts, ->() { where_with_locale(draft: true) }
     scope :no_drafts, ->() { where_with_locale(draft: false) }
-
+    scope :roots, ->() { where parent_id: nil }
     belongs_to :page
 
-    belongs_to :parent, class_name: "Block"
-    has_many :children, class_name: "Block", foreign_key: 'parent_id'
+    belongs_to :parent, class_name: "NoCms::Pages::Block"
+    has_many :children, class_name: "NoCms::Pages::Block", foreign_key: 'parent_id', inverse_of: :parent, dependent: :destroy
+    accepts_nested_attributes_for :children, allow_destroy: true
 
     attr_reader :cached_objects
 
@@ -22,9 +23,14 @@ module NoCms::Pages
     after_initialize :set_blank_fields
     after_create :set_default_position
     before_save :save_related_objects
+    before_validation :copy_parent_page
 
     validates :fields_info, presence: { allow_blank: true }
     validates :page, :layout, presence: true
+
+    def position
+      self[:position] || 0
+    end
 
     def layout_config
       NoCms::Pages.block_layouts.stringify_keys[layout]
@@ -129,6 +135,10 @@ module NoCms::Pages
     def reload
       @cached_objects = {}
       super
+    end
+
+    def copy_parent_page
+      self.page = parent.page unless parent.nil?
     end
 
     private
