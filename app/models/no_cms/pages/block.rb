@@ -5,7 +5,7 @@ module NoCms::Pages
 
     scope :drafts, ->() { where_with_locale(draft: true) }
     scope :no_drafts, ->() { where_with_locale(draft: false) }
-
+    scope :roots, ->() { where parent_id: nil }
     belongs_to :page
 
     belongs_to :parent, class_name: "NoCms::Pages::Block"
