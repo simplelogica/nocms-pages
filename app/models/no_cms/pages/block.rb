@@ -23,6 +23,7 @@ module NoCms::Pages
     after_initialize :set_blank_fields
     after_create :set_default_position
     before_save :save_related_objects
+    before_validation :copy_parent_page
 
     validates :fields_info, presence: { allow_blank: true }
     validates :page, :layout, presence: true
@@ -130,6 +131,10 @@ module NoCms::Pages
     def reload
       @cached_objects = {}
       super
+    end
+
+    def copy_parent_page
+      self.page = parent.page unless parent.nil?
     end
 
     private
