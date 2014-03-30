@@ -28,6 +28,10 @@ module NoCms::Pages
     validates :fields_info, presence: { allow_blank: true }
     validates :page, :layout, presence: true
 
+    def position
+      self[:position] || 0
+    end
+
     def layout_config
       NoCms::Pages.block_layouts.stringify_keys[layout]
     end
