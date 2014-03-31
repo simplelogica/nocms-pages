@@ -93,6 +93,18 @@ describe NoCms::Pages::Page do
     end
   end
 
+  context "when setting an empty slug and a parent" do
+
+    let(:page) { create :nocms_page, parent: create(:nocms_page)}
+
+    subject { page }
+
+    it "should set a slug" do
+      expect(page.slug).to eq page.title.parameterize
+    end
+
+  end
+
   context "regarding templates" do
 
     it "should detect templates from app folder" do
