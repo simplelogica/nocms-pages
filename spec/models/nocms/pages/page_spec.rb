@@ -95,7 +95,7 @@ describe NoCms::Pages::Page do
 
   context "when setting an empty slug and a parent" do
 
-    let(:page) { create :nocms_page, parent: create(:nocms_page)}
+    let(:page) { create :nocms_page, slug: '', parent: create(:nocms_page, slug: 'asdasdasd')}
 
     subject { page }
 

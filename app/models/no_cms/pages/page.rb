@@ -26,8 +26,9 @@ module NoCms::Pages
     after_move :rebuild_path
 
     def set_slug_and_path
-      self.slug = title.parameterize if slug.nil? && !title.nil?
-      self.slug = title.parameterize if slug.blank? && parent.nil? && Page.home && (Page.home != self)
+      self.slug = title.parameterize if slug.nil? && !title.nil? # If there's no slug then we create it
+      self.slug = title.parameterize if slug.blank? && !parent.nil? # If slug is blank and this page has a parent then we recreate it
+      self.slug = title.parameterize if slug.blank? && Page.home && (Page.home != self) # If slug is blank and there's already a home (and it's another page) then we recreate it
       self.rebuild_path if path.nil? || attribute_changed?('slug')
     end
 
