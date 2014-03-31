@@ -27,6 +27,7 @@ module NoCms::Pages
 
     def set_slug_and_path
       self.slug = title.parameterize if slug.nil? && !title.nil?
+      self.slug = title.parameterize if slug.blank? && parent.nil? && Page.home && (Page.home != self)
       self.rebuild_path if path.nil? || attribute_changed?('slug')
     end
 

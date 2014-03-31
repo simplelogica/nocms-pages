@@ -76,6 +76,21 @@ describe NoCms::Pages::Page do
 
     it("should be the home page") { expect(subject).to eq NoCms::Pages::Page.home }
 
+    context "adding a new page with empty slug and no parent" do
+
+      before do
+        page
+      end
+
+      let(:another_home) { create :nocms_page, slug: ''}
+
+      subject { another_home }
+
+      it "should set a slug" do
+        expect(another_home.slug).to eq another_home.title.parameterize
+      end
+
+    end
   end
 
   context "regarding templates" do
