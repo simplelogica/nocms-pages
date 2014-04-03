@@ -119,6 +119,8 @@ module NoCms::Pages
       new_layout = new_attributes[:layout] || new_attributes['layout']
       self.layout = new_layout unless new_layout.nil?
 
+      Rails.logger.info "Searching #{new_attributes.keys.inspect} fields in #{self.layout} layout"
+
       # And now separate fields and attributes
       fields = new_attributes.select{|k, _| has_field? k }.symbolize_keys
       new_attributes.reject!{|k, _| has_field? k }
