@@ -151,7 +151,7 @@ module NoCms::Pages
     end
 
     def set_default_position
-      self.update_attribute :position, ((page.blocks.pluck(:position).compact.max || 0) + 1) if self.position.blank?
+      self.update_attribute :position, ((page.blocks.pluck(:position).compact.max || 0) + 1) if self[:position].blank?
     end
 
     def save_related_objects
