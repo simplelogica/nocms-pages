@@ -33,7 +33,7 @@ module NoCms::Pages
     end
 
     def rebuild_path
-      self.update_attribute :path, "#{ancestors.map(&:path).join}/#{slug}"
+      self.update_attribute :path, "#{parent.path unless parent.nil?}/#{slug}"
       descendants.each(&:rebuild_path)
     end
 
