@@ -31,4 +31,7 @@ NoCms::Pages.configure do |config|
   # }
   # config.block_layouts = {}
 
+  # By default we use blocks to create the content of the page. If we just want a big textarea to insert the content we must set use_body to true
+  # config.use_body = false
+
 end
