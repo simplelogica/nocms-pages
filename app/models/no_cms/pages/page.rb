@@ -17,7 +17,8 @@ module NoCms::Pages
 
     translates :title, :body, :slug, :path, :draft
 
-    validates :title, :body, presence: true
+    validates :title, presence: true
+    validates :body, presence: true if NoCms::Pages.use_body?
     validates :slug, presence: { allow_blank: true }
     validates :path, presence: true, uniqueness: true
 

@@ -16,5 +16,9 @@ module NoCms
       }
     }
 
+    def self.use_body?
+      use_body
+    end
+
   end
 end
