@@ -1,5 +1,11 @@
 NoCms::Pages.configure do |config|
 
+  # Enable Rails fragment cache for the block templates when you call the render_block helper
+  # You can override this cache setting in any block configuration below or sending
+  # the cache option true or false when calling the menu helpers
+  # e.g: render_block block, cache: true
+  # config.cache_enabled = false
+
   # In this section we configure block layouts. It's just an array of layouts, each consisting on a hash.
   # Each layout has a series of options
   # E.g: config.block_layouts = {
@@ -18,6 +24,9 @@ NoCms::Pages.configure do |config|
   #    nest_levels: [0] # Some layout may not be nestable, or useful only in certain nesting level
   #                     # Once again, this setting is used by nocms-admin-pages gem to hide certain
   #                     # in nested blocks. When blank, it's assumed there's no restriction.
+  #    cache_enabled: false # When setting cache_enabled you will be **overriding** the global cache_enabled
+  #                         # setting. If you don't set a cache setting then it will use the global cache
+  #                         # setting specified above
   #   },
   #   'title-3_columns_text' => {
   #     template: 'title-3_columns_text',

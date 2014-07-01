@@ -4,8 +4,10 @@ module NoCms
 
     config_accessor :block_layouts
     config_accessor :use_body
+    config_accessor :cache_enabled
 
     self.use_body = false
+    self.cache_enabled = false
     self.block_layouts = {
       'default' => {
         template: 'default',
