@@ -2,5 +2,5 @@
 <p><%= @page.body %></p>
 
 <% @blocks.sort_by(&:position).each do |block| %>
-  <%= render "no_cms/pages/blocks/#{block.template}", block: block %>
+  <%= render_block block %>
 <% end %>
