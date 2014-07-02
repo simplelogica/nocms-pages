@@ -7,7 +7,7 @@ module NoCms
         block_template = "no_cms/pages/blocks/#{block.template}"
 
         if options[:cache_enabled]
-          Rails.cache.fetch "#{block_template}/#{block.id}" do
+          Rails.cache.fetch "#{block_template}/#{block.id}/#{block.updated_at.to_i}" do
             render block_template, block: block
           end
         else
