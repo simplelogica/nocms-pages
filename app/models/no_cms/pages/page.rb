@@ -15,7 +15,7 @@ module NoCms::Pages
     has_many :blocks, inverse_of: :page, class_name: 'NoCms::Pages::Block'
     accepts_nested_attributes_for :blocks, allow_destroy: true
 
-    translates :title, :body, :slug, :path, :draft, :css_class, :css_id
+    translates :title, :body, :slug, :path, :draft, :css_class, :css_id, :cache_enabled
 
     validates :title, presence: true
     validates :body, presence: true if NoCms::Pages.use_body?

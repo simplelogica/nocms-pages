@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140407083148) do
+ActiveRecord::Schema.define(version: 20140702114154) do
 
   create_table "no_cms_pages_block_translations", force: true do |t|
     t.integer "no_cms_pages_block_id"
@@ -44,6 +44,7 @@ ActiveRecord::Schema.define(version: 20140407083148) do
     t.boolean "draft",                default: false
     t.string  "css_class"
     t.string  "css_id"
+    t.boolean "cache_enabled",        default: true
   end
 
   add_index "no_cms_pages_page_translations", ["no_cms_pages_page_id"], name: "index_no_cms_pages_page_translations_on_no_cms_pages_page_id"

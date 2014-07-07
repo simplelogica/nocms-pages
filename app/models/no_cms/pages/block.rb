@@ -40,6 +40,11 @@ module NoCms::Pages
       layout_config[:template] if layout_config
     end
 
+    def cache_enabled
+      return NoCms::Pages.cache_enabled unless layout_config
+      layout_config.has_key?(:cache_enabled) ? layout_config[:cache_enabled] : NoCms::Pages.cache_enabled
+    end
+
     def has_field? field
       # We have the field if...
       !layout_config.nil? && # We have a layout configuration AND
