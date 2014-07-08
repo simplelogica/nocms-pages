@@ -1,7 +1,7 @@
 module NoCms::Pages
   class Block < ActiveRecord::Base
 
-    include Concerns::TranslationScopes
+    include NoCms::Pages::Concerns::TranslationScopes
 
     scope :drafts, ->() { where_with_locale(draft: true) }
     scope :no_drafts, ->() { where_with_locale(draft: false) }
