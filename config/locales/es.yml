@@ -1,0 +1,21 @@
+es:
+  activerecord:
+    models:
+      no_cms/pages/page: Página
+      no_cms/pages/block: Bloque de contenido
+    attributes:
+      no_cms/pages/page:
+        title: Título
+        body: Cuerpo
+        cache_enabled: Habilitar caché
+        css_class: Clases CSS
+        css_id: Id CSS
+      no_cms/pages/block:
+        layout: Layout
+        title: Título
+        body: Cuerpo
+  no_cms:
+    pages:
+      blocks:
+        layouts:
+          default: Layout por defecto
