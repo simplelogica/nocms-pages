@@ -10,7 +10,7 @@ module NoCms::Pages
       template = @page.template.blank? ? 'show' : @page.template
       layout = @page.layout.blank? ? 'application' : @page.layout
 
-      render template, layout: layout
+      render action: template, layout: layout
     end
   end
 end
