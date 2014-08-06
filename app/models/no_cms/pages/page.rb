@@ -44,5 +44,15 @@ module NoCms::Pages
         flatten.map { |f| File.basename(f, '.html.erb') }.uniq.sort # And get their names
     end
 
+    def self.layouts
+      return @layouts unless @layouts.blank?
+      @layouts = NoCms::Pages::page_layouts if @layouts.blank?
+      @layouts = Dir["#{Rails.root}/app/views/layouts/*.html.erb"]. # We get all the files in app/views/layouts
+        map { |f| File.basename(f, '.html.erb') }. # Get the name without any extension
+        reject {|l| l.starts_with? '_'}. # reject partials
+        sort if @layouts.blank? # and sort
+      @layouts
+    end
+
   end
 end

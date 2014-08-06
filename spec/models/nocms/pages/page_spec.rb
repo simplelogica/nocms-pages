@@ -113,6 +113,14 @@ describe NoCms::Pages::Page do
 
   end
 
+  context "regarding layouts" do
+
+    it "should detect layouts from app folder" do
+      expect(NoCms::Pages::Page.layouts).to match_array ['application', 'landing']
+    end
+
+  end
+
   context "when pages are marked as draft" do
 
     let(:no_draft_pages) { create_list :nocms_page, 2, draft: false }
