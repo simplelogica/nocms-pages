@@ -10,6 +10,7 @@ en:
         cache_enabled: Enable cache
         css_class: CSS classes
         css_id: CSS id
+        layout: Layout
       no_cms/pages/block:
         layout: Layout
         title: Title
