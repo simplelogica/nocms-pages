@@ -106,6 +106,16 @@ describe NoCms::Pages::Page do
 
     end
 
+    context "with layout" do
+
+      let(:cms_page) { create :nocms_page, layout: 'landing' }
+
+      before { visit cms_page.path }
+
+      it("should display landing layout") { expect(page).to have_selector('body#landing') }
+
+    end
+
     context "if page is in draft" do
 
       let(:cms_page) { create :nocms_page, draft: true }
