@@ -54,4 +54,7 @@ NoCms::Pages.configure do |config|
     }
   }
 
+  # By default we use all the layouts in the app/views/layouts from the app
+  # config.page_layouts = ['application', ...]
+
 end
