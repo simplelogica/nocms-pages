@@ -2,7 +2,7 @@ NoCms::Pages.configure do |config|
 
   # Enable Rails fragment cache for the block templates when you call the render_block helper
   # You can override this cache setting in any block configuration below or sending
-  # the cache option true or false when calling the menu helpers
+  # the cache option true or false when calling the block helpers
   # e.g: render_block block, cache: true
   # config.cache_enabled = false
 
