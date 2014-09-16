@@ -62,6 +62,8 @@ Block settings are configured in the file `config/initializers/nocms/pages.rb`. 
 The following code
 
 ```ruby
+NoCms::Pages.configure do |config|
+
   config.block_layouts = {
     'default' => {
       template: 'default',
@@ -86,6 +88,9 @@ The following code
         logo: TestImage
       }
     }
+  }
+
+end
 ```
 
 declares 3 layouts ('default', 'title-3_columns' and 'logo-caption'). Each layout has a template and some declared fields. These fields will be available in the ruby object for that block. As an example, if `@block` is an instance of the NoCms::Pages::Block model which layout attribute is set to 'default' you will be able to do `@block.title`
@@ -136,3 +141,79 @@ This partial is a regular Rails partial (nothing special here). AS an example, t
 As you can see, the partial has a block variable containing the block object you are rendering.
 
 Since this is plain old rails you can do everything you can do with a partial (i.e. having a `/no_cms/pages/blocks/title_3_columns.en.html.erb` for the english version and a `/no_cms/pages/blocks/title_3_columns.es.html.erb` for the spanish one).
+
+### Block Cache
+
+Since blocks are independent units of content within a page, the standard Rails fragment cache seemed to fit well with them. That's why the `render_block` helper decides wether Rails cache should be used for rendering an individual block.
+
+Cache for the blocks are configured at 3 levels:
+
+1. The page may have its `cache_enabled` attribute set to false. If this is the case then the cache will be disabled without any further check. This way, a page can be marked as "not cacheable" (e.g. in an admin interface) and no other setting can overwrite it.
+
+2. The `render_block` helper may be called with a `cache_enabled` option set to true or false. This option will enable/disable the cache. This allow us to render a block without using the cache (maybe on a preview action).
+
+  ```ruby
+    render_block block, cache: false
+  ```
+
+3. In the blocks configuration we can enable/disable the cache for all the blocks of a kind. We just have to add the cache_enabled setting.
+
+  ```ruby
+  NoCms::Pages.configure do |config|
+
+    config.block_layouts = {
+      'default' => {
+        template: 'default',
+        fields: {
+          title: :string,
+          body: :text
+        },
+        cache_enabled: false
+      }
+    }
+  end
+  ```
+
+4. In the blocks configuration file we can enable/disable cache for all the blocks that doesn't have a cache_enabled setting. This configuration will be stored at `NoCms::Pages.cache_enabled`
+
+  ```ruby
+  NoCms::Pages.configure do |config|
+
+    config.cache_enabled = true
+
+  end
+  ```
+
+As a summary:
+
+```ruby
+
+  b = NoCms::Pages::Block.new layout: 'default', title: 'Foo', description: 'Bar', page: page
+  b.page.cache_enabled # => true
+  NoCms::Pages.cache_enabled # => true
+  b.cache_enabled # => false, since the block configuration sets it to false
+  render_block b # => This won't use fragment cache since this block layout have cache disabled
+
+  b = NoCms::Pages::Block.new layout: 'title-3_columns', title: 'Foo', description: 'Bar', page: page
+  b.page.cache_enabled # => true
+  NoCms::Pages.cache_enabled # => true
+  b.cache_enabled # => true, since this block configuration doesn't override NoCms::Pages.cache_enabled
+  render_block b # => This will use fragment cache since, by default, it's enabled for all blocks
+
+  render_block b, cache_enabled: false # => This won't use fragment cache as the option in the helper overrides the block configuration
+
+  page.cache_enabled = false
+  render_block b # => This won't use fragment cache sincs it's been disabled for the page and blocks configuration has been override
+  render_block b, cache_enabled: true # => This won't use fragment cache even when saying the helper to do it. Power for the users!
+
+```
+
+## Where is the admin interface?
+
+`nocms-pages` is a gem with the minimum dependencies and that includes the admin interface.
+
+Main idea is that this gem can be used in a project with a Rails Admin, an Active Admin or a home made admin. Of course, it can be tricky to embed this dynamic kind of blocks in a pre-built admin, but we think that freedom must be given to the developers.
+
+As soon as we started using this gem we started our own admin interface, which is contained in another gem [nocms-admin-pages](https://github.com/simplelogica/nocms-admin-pages) and you can use it.
+
+If your project already has another standard admin interface such as Rails Admin and you manage to embed nocms-pages on it, please, let us know and we will make a note here giving you full credit for the development :)
