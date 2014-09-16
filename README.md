@@ -110,8 +110,29 @@ block.body # => NoMethodError
 
 block.layout = 'logo_caption'
 block.title # => NoMethodError
-block.logo = TestImage.new name: 'testing logo'
+block.logo = { name: 'testing logo' } # Currently this is the way to assign objects
 block.logo.name # => 'testing logo'
-
-
+block.logo.class # => TestImage
+block.logo = TestImage.new name: 'testing logo' # Error! Currently assigning the object is not allowed :(
 ```
+
+#### Block templates
+
+Blocks are rendered using the `render_block` helper which controls all the logic related with renderinf a block, including fragment cache control.
+
+In the end a partial is rendered using the block as a local variable to obtain the information. This partial must be found at `no_cms/pages/blocks` views folder and have the name configured in the `template` setting of the block. This way, rendering a 'title-3_columns' would render the partial `/no_cms/pages/blocks/title_3_columns`.
+
+This partial is a regular Rails partial (nothing special here). AS an example, this could be the content of our  `/no_cms/pages/blocks/title_3_columns.html.erb` partial:
+
+```html
+<div class='columns_block'>
+  <h2 class="title"><%= block.title %></h2>
+  <p class="column_1"><%= block.column_1 %></p>
+  <p class="column_2"><%= block.column_2 %></p>
+  <p class="column_3"><%= block.column_3 %></p>
+</div>
+```
+
+As you can see, the partial has a block variable containing the block object you are rendering.
+
+Since this is plain old rails you can do everything you can do with a partial (i.e. having a `/no_cms/pages/blocks/title_3_columns.en.html.erb` for the english version and a `/no_cms/pages/blocks/title_3_columns.es.html.erb` for the spanish one).
