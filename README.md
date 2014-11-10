@@ -26,6 +26,14 @@ And run the initializer:
 rails g nocms:pages
 ```
 
+Optionally, you may be interested on adding this engine routes to your app. You just have to mount the engine in your routes.rb file [just like any other standard engine][http://edgeguides.rubyonrails.org/engines.html#highlighter_95949].
+
+```ruby
+  mount NoCms::Pages::Engine => "/"
+```
+
+If you prefer not to mount the whole engine just take a look at the config/routes.rb file of the engine to see which controllers and actions are used.
+
 ## How does it works?
 
 In NoCms you can customize the layout, templates and blocks a page is made of. Let's how to customize each one of them:
