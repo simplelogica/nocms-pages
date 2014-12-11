@@ -1,4 +1,5 @@
 require 'globalize'
+require 'nocms-blocks'
 require 'awesome_nested_set'
 
 module NoCms
