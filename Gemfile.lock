@@ -1,6 +1,6 @@
 GIT
   remote: git@github.com:simplelogica/nocms-blocks.git
-  revision: 682039b9f973976e0d9656c524e2f8655235ff4c
+  revision: efb13dcfcd324a862612e0f024d0ba6ed319a296
   branch: master
   specs:
     nocms-blocks (0.0.1)
