@@ -12,7 +12,7 @@ module NoCms::Pages
 
     acts_as_nested_set
 
-    has_many :blocks, inverse_of: :page, class_name: 'NoCms::Pages::Block'
+    has_and_belongs_to_many :blocks, class_name: "NoCms::Blocks::Block"
     accepts_nested_attributes_for :blocks, allow_destroy: true
 
     translates :title, :body, :slug, :path, :draft, :css_class, :css_id, :cache_enabled
