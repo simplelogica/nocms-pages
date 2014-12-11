@@ -2,5 +2,5 @@
 <p><%= @page.body %></p>
 
 <% @blocks.sort_by(&:position).each do |block| %>
-  <%= render_block block %>
+  <%= render_page_block @page, block %>
 <% end %>
