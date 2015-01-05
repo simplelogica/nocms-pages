@@ -58,6 +58,8 @@ This `template` is set from the template attribute, being `show` the default val
 
 In a previous gem version blocks were a model within the NoCms::Pages namespace, but now everything was moved to the [nocms-blocks](https://github.com/simplelogica/nocms-blocks) and in this repo there's only left a rake task for the migration.
 
+You can read the steps for a sucessful block migration in its own [migration documentation](doc/migration-blocks-steps.md)
+
 ### Block Cache
 
 Blocks are rendered through the `render_page_block` helper instead of the `render_block` helper from `nocms-blocks`. This helper uses the `render_block` helper but add some extra cache levels:
