@@ -4,7 +4,6 @@ namespace :no_cms do
 
     desc 'Task for migrating blocks from NoCms::Pages::Block model to NoCms::Blocks::Block'
     task :migrate_blocks => :environment do
-      NoCms::Pages::Page.all.each {|p| p.blocks.clear }
       root_blocks = NoCms::Pages::Deprecated::Block.dump
       root_blocks.each do |root_block|
         import_block root_block
