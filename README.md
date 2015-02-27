@@ -26,6 +26,12 @@ And then import all the migrations:
 rake no_cms_pages:install:migrations
 ```
 
+And run them:
+
+```
+rake db:migrate
+```
+
 And run the initializer:
 
 ```
