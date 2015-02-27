@@ -14,6 +14,12 @@ To install it just put the repo in your Gemfile:
 gem "nocms-pages", git: 'git@github.com:simplelogica/nocms-pages.git'
 ```
 
+Then you update the bundle:
+
+```ruby
+bundle install
+```
+
 And then import all the migrations:
 
 ```
