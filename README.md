@@ -38,7 +38,7 @@ And run the initializer:
 rails g nocms:pages
 ```
 
-Optionally, you may be interested on adding this engine routes to your app. You just have to mount the engine in your routes.rb file [just like any other standard engine][http://edgeguides.rubyonrails.org/engines.html#highlighter_95949].
+Optionally, you may be interested on adding this engine routes to your app. You just have to mount the engine in your routes.rb file [just like any other standard engine](http://edgeguides.rubyonrails.org/engines.html#highlighter_95949).
 
 ```ruby
   mount NoCms::Pages::Engine => "/"
