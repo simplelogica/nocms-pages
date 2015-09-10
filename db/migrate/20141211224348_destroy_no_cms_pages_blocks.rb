@@ -5,7 +5,11 @@ class DestroyNoCmsPagesBlocks < ActiveRecord::Migration
       raise Exception.new("Migration destroying no_cms_pages_blocks should only be run after creating NoCms::Blocks::Block table")
     end
 
-    Rake::Task["no_cms:pages:migrate_blocks"].invoke
+    begin
+      Rake::Task["no_cms:pages:migrate_blocks"].invoke
+    rescue
+      Rake::Task["app:no_cms:pages:migrate_blocks"].invoke
+    end
     drop_table :no_cms_pages_blocks
   end
 end
