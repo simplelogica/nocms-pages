@@ -11,12 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141211225408) do
+ActiveRecord::Schema.define(version: 20150909142454) do
 
   create_table "no_cms_blocks_block_translations", force: true do |t|
     t.integer "no_cms_blocks_block_id"
     t.string  "locale"
-    t.string  "layout"
     t.text    "fields_info",            limit: 4294967295
     t.boolean "draft"
   end
@@ -31,6 +30,8 @@ ActiveRecord::Schema.define(version: 20141211225408) do
     t.integer  "rgt"
     t.integer  "depth"
     t.integer  "position"
+    t.text     "fields_info"
+    t.string   "layout"
   end
 
   create_table "no_cms_blocks_blocks_pages_pages", id: false, force: true do |t|
@@ -44,7 +45,7 @@ ActiveRecord::Schema.define(version: 20141211225408) do
     t.integer "no_cms_pages_block_id"
     t.string  "locale"
     t.string  "layout"
-    t.text    "fields_info",           default: "--- {}\n"
+    t.text    "fields_info"
     t.boolean "draft",                 default: false
   end
 
