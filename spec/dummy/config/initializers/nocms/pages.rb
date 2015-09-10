@@ -28,32 +28,6 @@ NoCms::Pages.configure do |config|
   # }
   # config.block_layouts = {}
 
-  config.block_layouts = {
-    'default' => {
-      template: 'default',
-      fields: {
-        title: :string,
-        body: :text
-      }
-    },
-    'title-3_columns' => {
-      template: 'title_3_columns',
-      fields: {
-        title: :string,
-        column_1: :text,
-        column_2: :text,
-        column_3: :text
-      },
-    },
-    'logo-caption' => {
-      template: 'logo_caption',
-      fields: {
-        caption: :string,
-        logo: TestImage
-      }
-    }
-  }
-
   # By default we use all the layouts in the app/views/layouts from the app
   # config.page_layouts = ['application', ...]
 
