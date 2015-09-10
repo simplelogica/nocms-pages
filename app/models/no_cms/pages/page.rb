@@ -28,14 +28,18 @@ module NoCms::Pages
 
     def set_slug_and_path
       self.slug = title.parameterize if slug.nil? && !title.nil? # If there's no slug then we create it
-      self.slug = title.parameterize if slug.blank? && !parent.nil? # If slug is blank and this page has a parent then we recreate it
-      self.slug = title.parameterize if slug.blank? && Page.home && (Page.home != self) # If slug is blank and there's already a home (and it's another page) then we recreate it
+      self.slug = title.parameterize if slug.blank? && !title.nil? && !parent.nil? # If slug is blank and this page has a parent then we recreate it
+      self.slug = title.parameterize if slug.blank? &&  !title.nil? && Page.home && (Page.home != self) # If slug is blank and there's already a home (and it's another page) then we recreate it
       self.rebuild_path if path.nil? || attribute_changed?('slug')
     end
 
     def rebuild_path
-      self.update_attribute :path, "#{parent.path unless parent.nil?}/#{slug}"
-      descendants.each(&:rebuild_path)
+      if self.persisted?
+        self.update_attribute :path, "#{parent.path unless parent.nil?}/#{slug}"
+        descendants.each(&:rebuild_path)
+      else
+        self.path = "#{parent.path unless parent.nil?}/#{slug}"
+      end
     end
 
     def self.templates
