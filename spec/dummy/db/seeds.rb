@@ -1,5 +1,5 @@
 NoCms::Pages::Page.delete_all
-NoCms::Pages::Block.delete_all
+NoCms::Blocks::Block.delete_all
 
 NoCms::Pages::Page.create!(
   title: Faker::Lorem.sentence,
