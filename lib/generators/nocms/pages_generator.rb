@@ -7,6 +7,10 @@ module NoCms
       template "config/initializers/nocms/pages.rb", File.join(destination_root, "config", "initializers", "nocms", "pages.rb")
     end
 
+    def generate_nocms_blocks_initializer
+      generate "nocms:blocks"
+    end
+
     def self.namespace
       "nocms:pages"
     end
