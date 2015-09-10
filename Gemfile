@@ -24,5 +24,3 @@ group :test do
   gem 'capybara'
   gem 'database_cleaner'
 end
-
-gem "nocms-blocks", git: 'git@github.com:simplelogica/nocms-blocks.git', branch: 'master'

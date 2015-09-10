@@ -1,19 +1,10 @@
-GIT
-  remote: git@github.com:simplelogica/nocms-blocks.git
-  revision: efb13dcfcd324a862612e0f024d0ba6ed319a296
-  branch: master
-  specs:
-    nocms-blocks (0.0.1)
-      awesome_nested_set (>= 3.0.0.rc.6)
-      rails (~> 4.0, >= 4.0.3)
-
 PATH
   remote: .
   specs:
-    nocms-pages (0.0.1)
+    nocms-pages (0.1.0)
       awesome_nested_set (>= 3.0.0.rc.6)
       globalize (~> 4.0, >= 4.0.0)
-      nocms-blocks
+      nocms-blocks (~> 1.1.1)
       rails (~> 4.0, >= 4.0.3)
 
 GEM
@@ -36,7 +27,7 @@ GEM
       activerecord-deprecated_finders (~> 1.0.2)
       activesupport (= 4.0.3)
       arel (~> 4.0.0)
-    activerecord-deprecated_finders (1.0.3)
+    activerecord-deprecated_finders (1.0.4)
     activesupport (4.0.3)
       i18n (~> 0.6, >= 0.6.4)
       minitest (~> 4.2)
@@ -44,7 +35,7 @@ GEM
       thread_safe (~> 0.1)
       tzinfo (~> 0.3.37)
     arel (4.0.2)
-    awesome_nested_set (3.0.1)
+    awesome_nested_set (3.0.2)
       activerecord (>= 4.0.0, < 5)
     builder (3.1.4)
     capybara (2.2.1)
@@ -65,7 +56,7 @@ GEM
       activesupport (>= 3.0.0)
     faker (1.2.0)
       i18n (~> 0.5)
-    globalize (4.0.1)
+    globalize (4.0.3)
       activemodel (>= 4.0.0, < 5)
       activerecord (>= 4.0.0, < 5)
     hike (1.2.3)
@@ -78,6 +69,10 @@ GEM
     mini_portile (0.5.2)
     minitest (4.7.5)
     multi_json (1.10.1)
+    nocms-blocks (1.1.1)
+      awesome_nested_set (~> 3.0.0)
+      globalize (>= 4.0.0, < 5.1)
+      rails (~> 4.0, <= 4.2.3)
     nokogiri (1.6.1)
       mini_portile (~> 0.5.0)
     polyglot (0.3.5)
@@ -118,7 +113,7 @@ GEM
       rspec-mocks (= 3.0.0.beta2)
       rspec-support (= 3.0.0.beta2)
     rspec-support (3.0.0.beta2)
-    sprockets (2.12.3)
+    sprockets (2.12.4)
       hike (~> 1.2)
       multi_json (~> 1.0)
       rack (~> 1.0)
@@ -147,7 +142,6 @@ DEPENDENCIES
   database_cleaner
   factory_girl
   faker
-  nocms-blocks!
   nocms-pages!
   rspec-rails (~> 3.0.0.beta)
   sqlite3
