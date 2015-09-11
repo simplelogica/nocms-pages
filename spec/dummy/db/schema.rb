@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150909142454) do
+ActiveRecord::Schema.define(version: 20150910163025) do
 
   create_table "no_cms_blocks_block_translations", force: true do |t|
     t.integer "no_cms_blocks_block_id"

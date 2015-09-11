@@ -23,6 +23,7 @@ bundle install
 And then import all the migrations:
 
 ```
+rake no_cms_blocks:install:migrations
 rake no_cms_pages:install:migrations
 ```
 
