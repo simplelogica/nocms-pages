@@ -16,6 +16,7 @@ module NoCms::Pages
     accepts_nested_attributes_for :blocks, allow_destroy: true
 
     translates :title, :body, :slug, :path, :draft, :css_class, :css_id, :cache_enabled
+    accepts_nested_attributes_for :translations
 
     validates :title, presence: true
     validates :body, presence: true if NoCms::Pages.use_body?
