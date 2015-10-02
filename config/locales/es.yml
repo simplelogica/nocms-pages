@@ -11,6 +11,9 @@ es:
         css_class: Clases CSS
         css_id: Id CSS
         layout: Layout
+        parent: Padre
+        template: Plantilla
+        draft: Borrador
       no_cms/pages/block:
         layout: Layout
         title: Título
