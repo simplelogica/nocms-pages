@@ -6,17 +6,17 @@ describe NoCms::Pages::Page do
 
     let(:cms_page) { create :nocms_page }
     let(:image_attributes) { attributes_for(:test_image) }
-    let(:block_default_layout) { create :nocms_block, layout: 'default', page: cms_page, title: Faker::Lorem.sentence, body: Faker::Lorem.paragraph }
-    let(:block_3_columns_layout) { create :nocms_block, layout: 'title-3_columns', page: cms_page, title: Faker::Lorem.sentence, column_1: Faker::Lorem.paragraph, column_2: Faker::Lorem.paragraph, column_3: Faker::Lorem.paragraph }
-    let(:block_logo) { create :nocms_block, layout: 'logo-caption', page: cms_page, caption: Faker::Lorem.sentence, logo: image_attributes }
-    let(:block_draft) { create :nocms_block, layout: 'default', page: cms_page, title: Faker::Lorem.sentence, body: Faker::Lorem.paragraph, draft: true }
+    let(:block_default_layout) { create :block, layout: 'default', title: Faker::Lorem.sentence, body: Faker::Lorem.paragraph }
+    let(:block_3_columns_layout) { create :block, layout: 'title-3_columns', title: Faker::Lorem.sentence, column_1: Faker::Lorem.paragraph, column_2: Faker::Lorem.paragraph, column_3: Faker::Lorem.paragraph }
+    let(:block_logo) { create :block, layout: 'logo-caption', caption: Faker::Lorem.sentence, logo: image_attributes }
+    let(:block_draft) { create :block, layout: 'default', title: Faker::Lorem.sentence, body: Faker::Lorem.paragraph, draft: true }
 
-    let(:page_blocks) { [block_default_layout , block_3_columns_layout, block_logo, block_draft] }
+    let(:page_blocks) {  [block_default_layout , block_3_columns_layout, block_logo, block_draft] }
 
     context "if page exists" do
 
       before do
-        NoCms::Pages.configure do |config|
+        NoCms::Blocks.configure do |config|
           config.block_layouts = {
             'default' => {
               template: 'default',
@@ -45,7 +45,7 @@ describe NoCms::Pages::Page do
 
         end
 
-        page_blocks
+        cms_page.blocks = page_blocks
 
         visit cms_page.path
       end

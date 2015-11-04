@@ -8,6 +8,8 @@ require 'capybara/rspec'
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
 Dir[Rails.root.join("../support/**/*.rb")].each { |f| require f }
+FactoryGirl.definition_file_paths << "#{Gem::Specification.find_by_name("nocms-blocks").gem_dir}/spec/factories/no_cms/blocks/"
+
 
 # Checks for pending migrations before tests are run.
 # If you are not using ActiveRecord, you can remove this line.
@@ -18,7 +20,7 @@ RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
 
   # Capybara DSL only in request specs
-  config.include Capybara::DSL, :type => :request
+  config.include Capybara::DSL
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"

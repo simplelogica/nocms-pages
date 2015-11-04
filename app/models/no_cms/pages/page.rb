@@ -12,10 +12,11 @@ module NoCms::Pages
 
     acts_as_nested_set
 
-    has_many :blocks, inverse_of: :page, class_name: 'NoCms::Pages::Block'
+    has_and_belongs_to_many :blocks, class_name: "NoCms::Blocks::Block"
     accepts_nested_attributes_for :blocks, allow_destroy: true
 
     translates :title, :body, :slug, :path, :draft, :css_class, :css_id, :cache_enabled
+    accepts_nested_attributes_for :translations
 
     validates :title, presence: true
     validates :body, presence: true if NoCms::Pages.use_body?
@@ -28,14 +29,18 @@ module NoCms::Pages
 
     def set_slug_and_path
       self.slug = title.parameterize if slug.nil? && !title.nil? # If there's no slug then we create it
-      self.slug = title.parameterize if slug.blank? && !parent.nil? # If slug is blank and this page has a parent then we recreate it
-      self.slug = title.parameterize if slug.blank? && Page.home && (Page.home != self) # If slug is blank and there's already a home (and it's another page) then we recreate it
+      self.slug = title.parameterize if slug.blank? && !title.nil? && !parent.nil? # If slug is blank and this page has a parent then we recreate it
+      self.slug = title.parameterize if slug.blank? &&  !title.nil? && Page.home && (Page.home != self) # If slug is blank and there's already a home (and it's another page) then we recreate it
       self.rebuild_path if path.nil? || attribute_changed?('slug')
     end
 
     def rebuild_path
-      self.update_attribute :path, "#{parent.path unless parent.nil?}/#{slug}"
-      descendants.each(&:rebuild_path)
+      if self.persisted?
+        self.update_attribute :path, "#{parent.path unless parent.nil?}/#{slug}"
+        descendants.each(&:rebuild_path)
+      else
+        self.path = "#{parent.path unless parent.nil?}/#{slug}"
+      end
     end
 
     def self.templates

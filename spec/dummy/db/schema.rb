@@ -11,28 +11,45 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140806074938) do
+ActiveRecord::Schema.define(version: 20150910163025) do
+
+  create_table "no_cms_blocks_block_translations", force: true do |t|
+    t.integer "no_cms_blocks_block_id"
+    t.string  "locale"
+    t.text    "fields_info",            limit: 4294967295
+    t.boolean "draft"
+  end
+
+  add_index "no_cms_blocks_block_translations", ["no_cms_blocks_block_id"], name: "no_cms_blocks_blocks_translations_block_id"
+
+  create_table "no_cms_blocks_blocks", force: true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "parent_id"
+    t.integer  "lft"
+    t.integer  "rgt"
+    t.integer  "depth"
+    t.integer  "position"
+    t.text     "fields_info"
+    t.string   "layout"
+  end
+
+  create_table "no_cms_blocks_blocks_pages_pages", id: false, force: true do |t|
+    t.integer  "page_id"
+    t.integer  "block_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "no_cms_pages_block_translations", force: true do |t|
     t.integer "no_cms_pages_block_id"
     t.string  "locale"
     t.string  "layout"
-    t.text    "fields_info",           default: "--- {}\n"
+    t.text    "fields_info"
     t.boolean "draft",                 default: false
   end
 
   add_index "no_cms_pages_block_translations", ["no_cms_pages_block_id"], name: "index_no_cms_pages_block_translations_on_no_cms_pages_block_id"
-
-  create_table "no_cms_pages_blocks", force: true do |t|
-    t.integer  "page_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "position"
-    t.integer  "parent_id"
-  end
-
-  add_index "no_cms_pages_blocks", ["page_id"], name: "index_no_cms_pages_blocks_on_page_id"
-  add_index "no_cms_pages_blocks", ["parent_id"], name: "index_no_cms_pages_blocks_on_parent_id"
 
   create_table "no_cms_pages_page_translations", force: true do |t|
     t.integer "no_cms_pages_page_id"

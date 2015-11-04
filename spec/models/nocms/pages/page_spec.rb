@@ -2,7 +2,6 @@ require 'spec_helper'
 
 describe NoCms::Pages::Page do
   it_behaves_like "model with required attributes", :nocms_page, [:title, :body]
-  it_behaves_like "model with has many relationship", :nocms_page, :nocms_block, :blocks, :page
   it_behaves_like "model with has many relationship", :nocms_page, :nocms_page, :children, :parent
 
   context "when creating" do
@@ -62,9 +61,11 @@ describe NoCms::Pages::Page do
     let(:page) { create :nocms_page}
     let(:duplicated_page) { build :nocms_page, slug: page.slug}
 
+    before { duplicated_page.valid? }
+
     subject { duplicated_page }
 
-    it("should not have a valid path") { expect(subject.errors_on(:path)).to_not be_blank }
+    it("should not have a valid path") { expect(subject.errors[:path]).to_not be_blank }
 
   end
 
